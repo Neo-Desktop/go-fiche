@@ -31,14 +31,13 @@ func init() {
 	pflag.StringP("domain", "d", "localhost", "This will be used as a prefix for an output received by the client. Value will be prepended with http[s].")
 	pflag.IntP("port", "p", 9999, "Port in which the service should listen on.")
 	pflag.BoolP("https", "S", false, fmt.Sprintf("If set, %s returns url with https prefix instead of http.", AppName))
-	pflag.StringP("username", "u", "", fmt.Sprintf("%s will try to switch to the requested user on startup if any is provided.", AppName))
 	pflag.IntP("buffer", "B", 32768, "This parameter defines size of the buffer used for getting data from the user. Maximum size (in bytes) of all input files is defined by this value.")
 	pflag.StringP("log", "l", "", "Log file. This file has to be user-writable.")
 	pflag.Parse()
 	viper.BindPFlags(pflag.CommandLine)
 
 	if viper.GetBool("help") {
-		fmt.Printf("%s!\n Version %s, Built: %s [%s:%s-%s)\n\n", AppName, Version, BuildDate, GitBranch, GitCommit, GitState)
+		fmt.Printf("%s! - Version %s, Built on %s from Git tag [%s:%s-%s)\n", AppName, Version, BuildDate, GitBranch, GitCommit, GitState)
 		pflag.Usage()
 		os.Exit(2)
 	}
@@ -90,10 +89,10 @@ func handleConnection(conn net.Conn) {
 		remoteHost = conn.RemoteAddr().String()
 	}
 	defer func() {
-		log.Printf("Closing connection to: %s (%s).\n", remoteHost, conn.RemoteAddr())
+		log.Printf("Closing connection to: %s (%s).\n", remoteHost, conn.RemoteAddr().String())
 		conn.Close()
 	}()
-	log.Printf("Incoming connection from: %s (%s).\n", remoteHost, conn.RemoteAddr())
+	log.Printf("Incoming connection from: %s (%s).\n", remoteHost, conn.RemoteAddr().String())
 	conn.SetReadDeadline(time.Now().Add(time.Second * 5))
 
 	slug := generateSlug(time.Now().UnixNano())
@@ -103,6 +102,7 @@ func handleConnection(conn net.Conn) {
 	file, err := os.Create(slugFullpath)
 	if err != nil {
 		log.Fatalf("Unable to create slug file: %s", slugFullpath)
+		conn.Write([]byte(fmt.Sprintf("%s", "Internal error encountered - Please try again later...")))
 		return
 	}
 
