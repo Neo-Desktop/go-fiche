@@ -13,17 +13,25 @@ import (
 	"github.com/spf13/viper"
 )
 
+// AppName is the canonical name of this program
 const AppName = "Go-Fiche"
 
 const slugMap = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789"
 
-var (
-	GitCommit,
-	GitBranch,
-	GitState,
-	BuildDate,
-	Version string
-)
+// GitCommit holds the git commit message on compile time
+var GitCommit string
+
+// GitBranch holds the active git branch on compile time
+var GitBranch string
+
+// GitState holds the dirty-state on compile time
+var GitState string
+
+// BuildDate date of compile
+var BuildDate string
+
+// Version version string as contained in VERSION
+var Version string
 
 func init() {
 	pflag.BoolP("help", "h", false, "Prints this help message")
@@ -66,8 +74,6 @@ func main() {
 		}
 		go handleConnection(conn)
 	}
-	time.Sleep(5)
-	os.Exit(0)
 }
 
 func generateSlug(seed int64) string {
@@ -119,9 +125,9 @@ func handleConnection(conn net.Conn) {
 		log.Printf("0 bytes received, aborting...")
 		os.Remove(slugFullpath)
 		return
-	} else {
-		file.Close()
 	}
+
+	file.Close()
 
 	log.Printf("Wrote %d bytes to %s", stat.Size(), slugFullpath)
 
