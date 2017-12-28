@@ -5,7 +5,7 @@ go:
   - tip
 
 before_install:
-  - go get -u -v github.com/spf13/pflag github.com/spf13/viper github.com/ahmetb/govvv github.com/golang/lint/golint
+  - go get -u -v github.com/ahmetb/govvv github.com/golang/lint/golint
 
 script:
   - govvv build
