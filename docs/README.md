@@ -1,4 +1,4 @@
-## GoFiche! ![Build Status](https://travis-ci.org/Neo-Desktop/go-fiche.svg?branch=master "Build Status")
+## GoFiche! ![Build Status](https://travis-ci.org/Neo-Desktop/go-fiche.svg?branch=master "Build Status") [![GitHub issues](https://img.shields.io/github/issues/Neo-Desktop/go-fiche.svg)](https://github.com/Neo-Desktop/go-fiche/issues) [![GitHub license](https://img.shields.io/github/license/Neo-Desktop/go-fiche.svg)](https://github.com/Neo-Desktop/go-fiche/blob/master/LICENSE)
 ![Logo](https://neo-desktop.github.io/go-fiche/logo.png)
 
 ### A Go fork of [Fiche](https://github.com/solusipse/fiche "fiche")
