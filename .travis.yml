@@ -8,5 +8,4 @@ before_install:
   - go get -u -v github.com/spf13/pflag github.com/spf13/viper github.com/ahmetb/govvv github.com/golang/lint/golint
 
 script:
-  - ./.pre-commit.sh
   - govvv build

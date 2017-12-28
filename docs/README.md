@@ -1,4 +1,4 @@
-## GoFiche!
+## GoFiche! ![Build Status](https://travis-ci.org/Neo-Desktop/go-fiche.svg?branch=master "Build Status")
 ![Logo](https://neo-desktop.github.io/go-fiche/logo.png)
 
 ### A Go fork of [Fiche](https://github.com/solusipse/fiche "fiche")
