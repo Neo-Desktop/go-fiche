@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/spf13/pflag"
@@ -45,5 +46,17 @@ func init() {
 		viper.Set("uriprefix", "https")
 	} else {
 		viper.Set("uriprefix", "http")
+	}
+
+	_, err := os.Stat(viper.GetString("output"))
+	if err != nil {
+		log.Printf("unable to stat() output directory: %s\n", viper.GetString("output"))
+		log.Printf("attempting to create %s\n", viper.GetString("output"))
+		err = os.Mkdir(viper.GetString("output"), os.ModeDir)
+		if err != nil {
+			log.Printf("Unable to create directory %s\n", viper.GetString("output"))
+			log.Fatalf("System error: %s\n", err)
+			os.Exit(1)
+		}
 	}
 }
