@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func handleConnection(conn net.Conn) {
+func fiche(conn net.Conn) {
 	remoteHost, err := net.LookupCNAME(conn.RemoteAddr().String())
 	if err != nil {
 		remoteHost = conn.RemoteAddr().String()

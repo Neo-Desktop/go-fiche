@@ -28,6 +28,6 @@ func main() {
 			log.Printf("Error on accepting connection!")
 			continue
 		}
-		go handleConnection(conn)
+		go fiche(conn)
 	}
 }
