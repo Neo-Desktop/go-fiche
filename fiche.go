@@ -12,6 +12,24 @@ import (
 	"github.com/spf13/viper"
 )
 
+func ficheInit() {
+	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", viper.Get("port")))
+	if err != nil {
+		// handle error
+		log.Fatalf("Could not bind to port: %d!", viper.Get("port"))
+		os.Exit(-1)
+	}
+	log.Printf("Server started listening on port: %d.", viper.Get("port"))
+	for {
+		conn, err := listener.Accept()
+		if err != nil {
+			log.Printf("Error on accepting connection!")
+			continue
+		}
+		go fiche(conn)
+	}
+}
+
 func fiche(conn net.Conn) {
 	remoteHost, err := net.LookupCNAME(conn.RemoteAddr().String())
 	if err != nil {
@@ -30,7 +48,7 @@ func fiche(conn net.Conn) {
 
 	file, err := os.Create(slugFullpath)
 	if err != nil {
-		conn.Write([]byte(fmt.Sprintf("%s", "Internal error encountered - Please try again later...\n\n")))
+		conn.Write([]byte(fmt.Sprintf("%s", "Internal server error - Please try again later...\n\n")))
 		log.Fatalf("Unable to create slug file: %s", slugFullpath)
 		return
 	}

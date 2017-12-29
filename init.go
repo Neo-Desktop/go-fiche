@@ -33,6 +33,8 @@ func init() {
 	pflag.BoolP("https", "S", false, fmt.Sprintf("If set, %s returns url with https prefix instead of http.", AppName))
 	pflag.IntP("buffer", "B", 32768, "This parameter defines size of the buffer used for getting data from the user. Maximum size (in bytes) of all input files is defined by this value.")
 	pflag.StringP("log", "l", "", "Log file. This file has to be user-writable.")
+	pflag.BoolP("http", "H", false, "Enable the embedded http daemon.")
+	pflag.IntP("httpport", "P", 9989, "Sets the port for the embedded http daemon.")
 	pflag.Parse()
 	viper.BindPFlags(pflag.CommandLine)
 
