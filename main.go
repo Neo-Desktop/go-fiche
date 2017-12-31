@@ -15,7 +15,7 @@ func main() {
 	go ficheInit()
 
 	if viper.GetBool("http") {
-		go serveHttp()
+		go serveHTTP()
 	}
 
 	for {

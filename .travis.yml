@@ -1,11 +1,22 @@
 language: go
 go:
-  - 1.8.x
-  - 1.9.x
-  - tip
+- 1.8.x
+- 1.9.x
+- tip
 
 before_install:
-  - go get -u -v github.com/ahmetb/govvv github.com/golang/lint/golint
+- go get -u -v github.com/ahmetb/govvv
 
 script:
-  - govvv build
+- GOOS=linux GOARCH=amd64 govvv build -o build/go-fiche-linux64.bin
+- GOOS=darwin GOARCH=amd64 govvv build -o build/go-fiche-darwin64.bin
+- GOOS=windows GOARCH=amd64 govvv build -o build/go-fiche-window64.exe
+
+deploy:
+  provider: releases
+  api_key:
+    secure: asDCD4+XKalE/CTdC2NIKiV4Tyn8pzUxKtwpYelDdcYCWa2vnBvp+vFu9R+9y7OsUUFsAxJOTDKOGZmNFnPP48onQhjLghNHNvIBoshbGR4h9qgTl4j2mq/244u/JD3UiYWn0xg55QaI2gXuVTa/lqnhd7VeMLY2+FthysoQICuZoEsRLWDRcJupITkpCojbt0H6AwQtmjwj5g9eAIkvxDX/TrC1SdTaDsdBst/KmYP+8YPtIUn7fBxdIWc/P2hTefolQzMkmz7uCS91unMM9cjAZqFnIxTRRhwsskba9nzAyEPKbIlb6pEElfYdhg7kHCB7bcmfTYTyh4bEx/KoGHfGYFiO7cE2GZtQHGk9IXs2ZAyZsSmcNMqzb1xus5OmoblXRa552+NMMwvo4Ld16RKVd4Ar6H8Z4Zas3RUXjY+lOghpb5mBl+wnHCWvk6xL4AxrSGoolLixahkYE5oidBQxrHBzUCNEIIFyxuZ+1aj6TLtDhDdwOVH1vWkqfy+yzvuP0M+ioly4cGbVmtNJarKRdSK9V90tV98pt8SORHN0vONbvCXObA+vWmskSf85wyW50NcbPMUO4RxzYQTCBQ+Bik0zfM9F9AukHjxJaeKpK88t05benLsiaY9sa/JmdPllMDF3evZcXVK7pxkc3SUew0ynrnAck+IStVJxSKI=
+  file: build/*
+  on:
+    tags: true
+    repo: Neo-Desktop/go-fiche

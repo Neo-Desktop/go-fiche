@@ -11,12 +11,15 @@ import (
 	"github.com/spf13/viper"
 )
 
-func serveHttp() {
+func serveHTTP() {
 	files := http.FileServer(http.Dir(viper.GetString("output")))
 	http.Handle("/", disableDirectoryListing(files))
 
 	log.Printf("Starting embedded http server on port %d\n", viper.GetInt("httpport"))
-	http.ListenAndServe(fmt.Sprintf(":%d", viper.GetInt("httpport")), handlers.LoggingHandler(os.Stdout, http.DefaultServeMux))
+	err := http.ListenAndServe(fmt.Sprintf(":%d", viper.GetInt("httpport")), handlers.LoggingHandler(os.Stdout, http.DefaultServeMux))
+	if err != nil {
+		log.Fatalf("HTTP Server error: %s", err.Error())
+	}
 }
 
 func disableDirectoryListing(h http.Handler) http.HandlerFunc {
